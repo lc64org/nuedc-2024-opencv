@@ -9,9 +9,9 @@ class ChessBoardProcessor:
         # 初始化黑色棋子的坐标列表
         self.black_coordinates = []
 
-        # 初始化旋转后的白色棋子坐标列表
+        # 初始化在格子中的白色棋子坐标列表
         self.white_chess_coordinates = []
-        # 初始化旋转后的黑色棋子坐标列表
+        # 初始化在格子中的黑色棋子坐标列表
         self.black_chess_coordinates = []
 
         # 初始化旋转后的白色棋子坐标列表
@@ -141,15 +141,15 @@ class ChessBoardProcessor:
                 # 如果平均灰度值高于127，认为是白色棋子
                 if mean_color > 127:
                     self.white_coordinates.append((x, y, r))
-                    print(
-                        f"White piece detected at ({x}, {y}), mean color: {mean_color}"
-                    )
+                    # print(
+                    #     f"White piece detected at ({x}, {y}), mean color: {mean_color}"
+                    # )
                 # 否则认为是黑色棋子
                 else:
                     self.black_coordinates.append((x, y, r))
-                    print(
-                        f"Black piece detected at ({x}, {y}), mean color: {mean_color}"
-                    )
+                    # print(
+                    #     f"Black piece detected at ({x}, {y}), mean color: {mean_color}"
+                    # )
 
     def chess_board(self, image):
         # 将图像转换为灰度图
@@ -213,7 +213,7 @@ class ChessBoardProcessor:
             x2, y2 = third_point
 
             # 计算每个小格子的中心点
-            grid_centers = []
+            self.grid_centers = []
             for i in range(3):
                 for j in range(3):
                     center_x = (x1 + (x2 - x1) / 6) + (x2 - x1) / 3 * j
@@ -324,7 +324,7 @@ class ChessBoardProcessor:
 
             # 总结棋子信息
             summary = self.summarize_chess_info(
-                grid_centers, white_positions, black_positions
+                self.grid_centers, white_positions, black_positions
             )
             for info in summary:
                 print(
@@ -388,6 +388,12 @@ if __name__ == "__main__":
 
             image = img.copy()  # 复制读取到的画面，以备后续处理
             processor.process_frame(image)  # 使用ChessBoardProcessor对象处理复制的画面
+            print(processor.black_chess_coordinates)
+            print(processor.black_rot_coordinates)
+            print(processor.black_coordinates)
+            print(processor.white_chess_coordinates)
+            print(processor.white_rot_coordinates)
+            print(processor.white_coordinates)
 
             if cv2.waitKey(1) & 0xFF == ord(
                 "q"
