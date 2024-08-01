@@ -15,6 +15,8 @@ class ChessBoardProcessor:
 
         self.grid = np.zeros((3, 3), dtype=int)
 
+        self.grid_centers = []
+
     def coordinates_transformation(self, rotation_matrix, coordinate_x, coordinate_y):
         rotation_matrix_3x3 = np.vstack([rotation_matrix, [0, 0, 1]])
         homogeneous_coordinate = np.array([coordinate_x, coordinate_y, 1])
@@ -145,7 +147,7 @@ class ChessBoardProcessor:
                 for j in range(3):
                     center_x = (x1 + (x2 - x1) / 6) + (x2 - x1) / 3 * j
                     center_y = (y1 + (y1 - y2) / 6) + (y1 - y2) / 3 * i
-                    grid_centers.append((center_x, center_y))
+                    self.grid_centers.append((center_x, center_y))
 
             rotation_matrix = cv2.getRotationMatrix2D(center, angle, 1.0)
             rotated_image = cv2.warpAffine(image, rotation_matrix, (image.shape[1], image.shape[0]))
